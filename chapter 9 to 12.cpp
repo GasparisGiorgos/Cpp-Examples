@@ -10,6 +10,7 @@ void two_dimentional_array_with_structs();
 void structs_and_unions();
 void enums_and_typedefs();
 void dynamic_memory_allocation_in_pointers();
+void dynamic_memory_allocation_in_pointers();
 
 
 // Function to swap two integers using pointers
@@ -33,13 +34,14 @@ int main() {
         cout << "1.pointers" << endl;
         cout << "2 pointer arithmetic" << endl;
         cout << "3 pointer in pointer" <<endl;
-        cout << "4 dynamic memory allocation in pointers" << endl;
-        cout << "5 functions with pointers" << endl;
-        cout << "6 one dimentional array" << endl;
-        cout << "7 two dimentional array" << endl;
-        cout << "8 two dimentional array with structs" << endl;
-        cout << "9 structs and unions" << endl;
-        cout << "10 enums and typedefs" << endl;
+        cout << "4 dynamic memory allocation in pointers" << endl;\
+        cout << "5 pointer functions" << endl;
+        cout << "6 advanced dynamic memory allocation in pointers" << endl;
+        cout << "7 one dimentional array" << endl;
+        cout << "8 two dimentional array" << endl;
+        cout << "9 two dimentional array with structs" << endl;
+        cout << "10 structs and unions" << endl;
+        cout << "11 enums and typedefs" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -51,11 +53,12 @@ int main() {
             case 3: pointer_in_pointer(); break;
             case 4: dynamic_memory_allocation_in_pointers(); break;
             case 5: pointer_functions(); break;
-            case 6: one_dimentional_array(); break;
-            case 7: two_dimentional_array(); break;
-            case 8: two_dimentional_array_with_structs(); break;
-            case 9: structs_and_unions(); break;
-            case 10: enums_and_typedefs(); break;
+            case 6: dynamic_memory_allocation_in_pointers(); break;
+            case 7: one_dimentional_array(); break;
+            case 8: two_dimentional_array(); break;
+            case 9: two_dimentional_array_with_structs(); break;
+            case 10: structs_and_unions(); break;
+            case 11: enums_and_typedefs(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -176,6 +179,31 @@ void one_dimentional_array() {
     }
     std::cout << "\n-------------------" << std::endl;
     std::cout << std::endl;
+}
+
+void dynamic_memory_allocation_in_pointers() {
+
+    int size;
+    std::cout << "Enter the size of the array: ";
+        std::cin >> size;
+
+    int *arr = new int[size];
+
+    std::cout << "Enter " << size << " integers: " << std::endl;
+    for (int i = 0; i < size; i++) {
+        std::cout << "Give value for element " << i << ": ";
+        std::cin >> arr[i];
+    }
+
+    std::cout << "\nYour array: " << std::endl;
+    std::cout << "-------------------" << std::endl;
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << "\n-------------------" << std::endl;
+    std::cout << std::endl;
+
+    delete[] arr;
 }
 
 void two_dimentional_array() {
