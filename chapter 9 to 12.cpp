@@ -9,6 +9,7 @@ void two_dimentional_array();
 void two_dimentional_array_with_structs();
 void structs_and_unions();
 void enums_and_typedefs();
+void dynamic_memory_allocation_in_pointers();
 
 
 // Function to swap two integers using pointers
@@ -32,12 +33,13 @@ int main() {
         cout << "1.pointers" << endl;
         cout << "2 pointer arithmetic" << endl;
         cout << "3 pointer in pointer" <<endl;
-        cout << "4 functions with pointers" << endl;
-        cout << "5 one dimentional array" << endl;
-        cout << "6 two dimentional array" << endl;
-        cout << "7 two dimentional array with structs" << endl;
-        cout << "8 structs and unions" << endl;
-        cout << "9 enums and typedefs" << endl;
+        cout << "4 dynamic memory allocation in pointers" << endl;
+        cout << "5 functions with pointers" << endl;
+        cout << "6 one dimentional array" << endl;
+        cout << "7 two dimentional array" << endl;
+        cout << "8 two dimentional array with structs" << endl;
+        cout << "9 structs and unions" << endl;
+        cout << "10 enums and typedefs" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -47,12 +49,13 @@ int main() {
             case 1: pointer(); break;
             case 2: pointerArithmetic(); break;
             case 3: pointer_in_pointer(); break;
-            case 4: pointer_functions(); break;
-            case 5: one_dimentional_array(); break;
-            case 6: two_dimentional_array(); break;
-            case 7: two_dimentional_array_with_structs(); break;
-            case 8: structs_and_unions(); break;
-            case 9: enums_and_typedefs(); break;
+            case 4: dynamic_memory_allocation_in_pointers(); break;
+            case 5: pointer_functions(); break;
+            case 6: one_dimentional_array(); break;
+            case 7: two_dimentional_array(); break;
+            case 8: two_dimentional_array_with_structs(); break;
+            case 9: structs_and_unions(); break;
+            case 10: enums_and_typedefs(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -141,6 +144,19 @@ void pointer_functions() {
 
         std::cout << "After swap: a=" << a << std::endl;
         std::cout << "After swap: b=" << b << std::endl;
+}
+
+void dynamic_memory_allocation_in_pointers() {
+
+    int *ptr = new int;
+    std::cout << "Enter an integer: ";
+        std::cin >> *ptr;
+
+        std::cout << "\nMemory allocated at address: " << ptr << std::endl;
+            std::cout << "Value stored at allocated memory: " << *ptr << std::endl;
+    
+    std::cout << "The value you entered is: " << *ptr << std::endl;
+        delete ptr;
 }
 
 void one_dimentional_array() {
