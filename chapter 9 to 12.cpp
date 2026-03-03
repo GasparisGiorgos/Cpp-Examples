@@ -10,7 +10,7 @@ void two_dimentional_array_with_structs();
 void structs_and_unions();
 void enums_and_typedefs();
 void dynamic_memory_allocation_in_pointers();
-void dynamic_memory_allocation_in_pointers();
+void advanced_dynamic_memory_allocation_in_pointers();
 
 
 // Function to swap two integers using pointers
@@ -53,7 +53,7 @@ int main() {
             case 3: pointer_in_pointer(); break;
             case 4: dynamic_memory_allocation_in_pointers(); break;
             case 5: pointer_functions(); break;
-            case 6: dynamic_memory_allocation_in_pointers(); break;
+            case 6: advanced_dynamic_memory_allocation_in_pointers(); break;
             case 7: one_dimentional_array(); break;
             case 8: two_dimentional_array(); break;
             case 9: two_dimentional_array_with_structs(); break;
@@ -181,7 +181,7 @@ void one_dimentional_array() {
     std::cout << std::endl;
 }
 
-void dynamic_memory_allocation_in_pointers() {
+void advanced_dynamic_memory_allocation_in_pointers() {
 
     int size;
     std::cout << "Enter the size of the array: ";
