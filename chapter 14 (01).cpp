@@ -1,5 +1,5 @@
- #include <iostream>
-#include <string> // Required for advanced string features
+#include <iostream>
+#include <string>
 using namespace std;
 
 // Main Class
@@ -23,6 +23,8 @@ public:
     // Static method to access the static variable
     static int getAgentCount(); 
 };
+
+
 
 // --- Definitions Outside the Class ---
 
