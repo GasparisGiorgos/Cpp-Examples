@@ -43,22 +43,22 @@ void Pointer_to_BASE_class() {
 
     class polygon {
         public:
-            int width, hight;
-            void set_values (int a, int B) {width = a; hight = B;}
+            float width, hight;
+            void set_values (float a, float B) {width = a; hight = B;}
             void show_area() {std::cout << "Polygon" << std::endl; }
     };
 
 
     class rectangle : public polygon {
         public:
-        int area() {return width * hight;}
+        float area() {return width * hight;}
             void show_area() {std::cout << "Area of rectangle: " << area() << std::endl;}
     };
 
 
     class triangle : public polygon {
         public:
-            int area() {return width * hight / 2;}
+            float area() {return width * hight / 2;}
             void show_area() {std::cout << "Area of triangle: " << area() << std::endl;}
     };
 
@@ -94,12 +94,36 @@ void Virtual_methods() {
         public:
             rectangle (float w, float h) {width = w; hight = h;}
             float area() {return width * hight;}
+            void show_area() {
+                std::cout << "Area of rectangle: " << area() << std::endl; 
+                std::cout << "Virtual method called for rectangle" << std::endl;
+            }
     };
 
     class triangle : public polygon {
-        public:
+        public: 
             triangle (float w, float h) {set_values(w, h);}
             float area() {return width * hight / 2;}
-            void show_area() {std::cout << "Area of triangle: " << area() << std::endl;}
+            void show_area() {
+                std::cout << "Area of triangle: " << area() << std::endl; 
+                std::cout << "Virtual method called for triangle" << std::endl;
+            }
     };
+
+
+    std::cout << "Give values for width: ";
+    float input_width;
+    std::cin >> input_width;
+    std::cout << "Give values for hight: ";
+    float input_hight;
+    std::cin >> input_hight;
+
+    rectangle rect(input_width, input_hight);
+    triangle trgl(input_width, input_hight);
+
+    polygon *ptr = &rect;
+    polygon *ptr2 = &trgl;
+
+    ptr->show_area(); // Calls rectangle's area() through the base class pointer
+    ptr2->show_area(); // Calls triangle's area() through the base class pointer
 }
