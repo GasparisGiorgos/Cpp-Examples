@@ -95,8 +95,8 @@ void Virtual_methods() {
             rectangle (float w, float h) {width = w; hight = h;}
             float area() {return width * hight;}
             void show_area() {
-                std::cout << "Area of rectangle: " << area() << std::endl; 
                 std::cout << "Virtual method called for rectangle" << std::endl;
+                std::cout << "Area of rectangle: " << area() << std::endl; 
             }
     };
 
@@ -105,8 +105,8 @@ void Virtual_methods() {
             triangle (float w, float h) {set_values(w, h);}
             float area() {return width * hight / 2;}
             void show_area() {
-                std::cout << "Area of triangle: " << area() << std::endl; 
                 std::cout << "Virtual method called for triangle" << std::endl;
+                std::cout << "Area of triangle: " << area() << std::endl; 
             }
     };
 
@@ -117,6 +117,7 @@ void Virtual_methods() {
     std::cout << "Give values for hight: ";
     float input_hight;
     std::cin >> input_hight;
+    std::cout << std::endl;
 
     rectangle rect(input_width, input_hight);
     triangle trgl(input_width, input_hight);
@@ -125,5 +126,9 @@ void Virtual_methods() {
     polygon *ptr2 = &trgl;
 
     ptr->show_area(); // Calls rectangle's area() through the base class pointer
+    std::cout << "Virtual Method called through base class pointer for rectangle" << std::endl;
+    std::cout << std::endl;
     ptr2->show_area(); // Calls triangle's area() through the base class pointer
+    std::cout << "Virtual Method called through base class pointer for triangle" << std::endl;
+    std::cout << std::endl;
 }
