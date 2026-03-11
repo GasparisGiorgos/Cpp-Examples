@@ -3,6 +3,7 @@
 
 
 void Pointer_to_BASE_class();
+void Virtual_methods();
 
 int main() {
 
@@ -15,6 +16,7 @@ int main() {
         cout << "   CHOOSE A SECTION TO RUN" << endl;
         cout << "================================" << endl;
         cout << "1. Pointer to BASE class" << endl;
+        cout << "2. virtual methods" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -22,6 +24,7 @@ int main() {
 
         switch (choice) {
             case 1: Pointer_to_BASE_class(); break;
+            case 2: Virtual_methods(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -76,4 +79,21 @@ void Pointer_to_BASE_class() {
 
     rect.show_area();
     trgl.show_area();
+}
+
+void Virtual_methods() {
+    class polygon {
+        public:
+            int width, hight;
+            void set_values (int a, int B) {width = a; hight = B;}
+            virtual void show_area() = 0; // pure virtual function
+            virtual float area() = 0; // pure virtual function
+    };
+
+    class rectangle : public polygon {
+        public:
+            rectangle (float w, float h) {width = w; hight = h;}
+            float area() {return width * hight;}
+    };
+
 }
