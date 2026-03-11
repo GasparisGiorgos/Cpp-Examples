@@ -4,6 +4,7 @@
 
 void Pointer_to_BASE_class();
 void Virtual_methods();
+void Abstract_classes();
 
 int main() {
 
@@ -17,6 +18,7 @@ int main() {
         cout << "================================" << endl;
         cout << "1. Pointer to BASE class" << endl;
         cout << "2. virtual methods" << endl;
+        cout << "3. Abstract classes" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -25,6 +27,7 @@ int main() {
         switch (choice) {
             case 1: Pointer_to_BASE_class(); break;
             case 2: Virtual_methods(); break;
+            case 3: Abstract_classes(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -81,6 +84,7 @@ void Pointer_to_BASE_class() {
     trgl.show_area();
 }
 
+
 void Virtual_methods() {
     class polygon {
         public:
@@ -131,4 +135,50 @@ void Virtual_methods() {
     ptr2->show_area(); // Calls triangle's area() through the base class pointer
     std::cout << "Virtual Method called through base class pointer for triangle" << std::endl;
     std::cout << std::endl;
+}
+
+
+void Abstract_classes() {
+
+    class shape {
+        public:
+            virtual void draw() = 0; // pure virtual function
+            void show() {std::cout << "This is a shape." << std::endl;}
+    };
+
+    class circle : public shape {
+        public:
+            void area() {std::cout << "Area of circle: " << 3.14 * 5 * 5 << std::endl;}
+            void draw() {std::cout << "Drawing a circle." << std::endl;}
+            void show() {area();} // Calls the area() function
+    };
+
+    class square : public shape {
+        public:
+            void area() {std::cout << "Area of square: " << 5 * 5 << std::endl;}
+            void draw() {std::cout << "Drawing a square." << std::endl;}
+            void show() {area();} // Calls the area() function
+    };
+
+    std::cout << "Give Radius for circle: ";
+        float radius;
+            std::cin >> radius;
+    std::cout << "Give side length for square: ";
+        float side;
+            std::cin >> side;
+    std::cout << std::endl;
+
+    circle c;
+    square s;
+
+    shape *ptr = &c;
+    shape *ptr2 = &s;
+
+    ptr->show(); // Calls circle's area() through the base class pointer
+        std::cout << "Abstract class method called through base class pointer for circle" << std::endl;
+            std::cout << std::endl;
+
+    ptr2->show(); // Calls square's area() through the base class pointer
+        std::cout << "Abstract class method called through base class pointer for square" << std::endl;
+            std::cout << std::endl;
 }
