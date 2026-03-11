@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+float radius, side;
 
 void Pointer_to_BASE_class();
 void Virtual_methods();
@@ -140,6 +141,11 @@ void Virtual_methods() {
 
 void Abstract_classes() {
 
+    float radius, side;
+    radius = 0.0f;
+    side = 0.0f;
+
+    
     class shape {
         public:
             virtual void draw() = 0; // pure virtual function
@@ -148,23 +154,21 @@ void Abstract_classes() {
 
     class circle : public shape {
         public:
-            void area() {std::cout << "Area of circle: " << 3.14 * 5 * 5 << std::endl;}
+            void area() {std::cout << "Area of circle: " << 3.14 * radius * radius << std::endl;}
             void draw() {std::cout << "Drawing a circle." << std::endl;}
             void show() {area();} // Calls the area() function
     };
 
     class square : public shape {
         public:
-            void area() {std::cout << "Area of square: " << 5 * 5 << std::endl;}
+            void area() {std::cout << "Area of square: " << side * side << std::endl;}
             void draw() {std::cout << "Drawing a square." << std::endl;}
             void show() {area();} // Calls the area() function
     };
 
     std::cout << "Give Radius for circle: ";
-        float radius;
             std::cin >> radius;
     std::cout << "Give side length for square: ";
-        float side;
             std::cin >> side;
     std::cout << std::endl;
 
