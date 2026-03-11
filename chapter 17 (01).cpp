@@ -96,4 +96,10 @@ void Virtual_methods() {
             float area() {return width * hight;}
     };
 
+    class triangle : public polygon {
+        public:
+            triangle (float w, float h) {set_values(w, h);}
+            float area() {return width * hight / 2;}
+            void show_area() {std::cout << "Area of triangle: " << area() << std::endl;}
+    };
 }
