@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <string>
-#include <any>
 
 
 void checkCharType();
@@ -13,6 +12,8 @@ void simpleArithmetic();
 void typeCasting();
 void FunctionOverloading();
 void static_test();
+
+
 
 
     void test (int x);
@@ -29,13 +30,14 @@ void static_test();
 
     void test (float x) {
         using namespace std;
-        cout << "Float and Int: " << x << endl;
+        cout << "Float: " << x << endl;
     }
 
     void test (std::string s) {
         using namespace std;
         cout << "String: " << s << endl;
     }
+
 
 int main() {
 
@@ -48,14 +50,14 @@ int main() {
         cout << "   CHOOSE A SECTION TO RUN" << endl;
         cout << "================================" << endl;
         cout << "1. ASCII & Character Type Check" << endl;
-        cout << "2. String/Char Variable Demo" << endl;
+        cout << "2. String/Char Variable" << endl;
         cout << "3. Check if Numbers are Ordered" << endl;
         cout << "4. Name and Surname Input" << endl;
         cout << "5. Power and Square Root" << endl;
         cout << "6. Simple Arithmetic (a+b)*c" << endl;
         cout << "7. Float to Int Type Casting" << endl;
-        cout << "8. Function Overloading Demo" << endl;
-        cout << "9. Static Variable Demo" << endl;
+        cout << "8. Function Overloading " << endl;
+        cout << "9. Static Variable " << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -175,53 +177,23 @@ void typeCasting() {
     cout << "The numbers as integers: " << (int)num1 << ", " << (int)num2 << ", " << (int)num3 << endl;
 }
 
-void FunctionOverloading() { //NOT WORKING PROPERLY NEEDS FIXING
+void FunctionOverloading() {
         int x;
         float z;
         std::string s;
-        std::any r; 
 
-    /*
-        std::cout << "Enter an integer: ";
+    std::cout << "Enter and Intiger: " << std::endl;
         std::cin >> x;
-        std::cout << "Enter a float: ";
+    std::cout << "Enter and Float: " << std::endl;
         std::cin >> z;
-        std::cout << "Enter a string: ";
-        std::cin >> s; 
-    */
+    std::cout << "Enter and String: " << std::endl;
+        std::cin >> s;
 
-
-    std::cout << "Enter a value (int, float, or string): ";
-
-    std::string input;
-    std::cin >> input;
-
-    try {
-        r = std::stoi(input);
-        std::cout << "You entered an integer: "
-                  << std::any_cast<int>(r) << std::endl;
-    }
-    catch (...) {
-        try {
-            r = std::stof(input);
-            std::cout << "You entered a float: "
-                      << std::any_cast<float>(r) << std::endl;
-        }
-        catch (...) {
-            r = input;
-            std::cout << "You entered a string: "
-                      << std::any_cast<std::string>(r) << std::endl;
-        }
-    }
-/*        
-        std::cout << "This is an overloaded function. "<< std::endl;
-        test(x);
-        std::cout << "This is an overloaded function. "<< std::endl;
-        test (z);
-        std::cout << "This is an overloaded function. "<< std::endl;
-        test (s);
-*/    
-
+    test(x);
+    test(z);
+    test(s);
+    
+    std::cout << "Function overloading demo complete." << std::endl;
 }
 
 void static_test(){
