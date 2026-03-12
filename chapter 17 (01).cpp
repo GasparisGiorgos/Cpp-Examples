@@ -149,11 +149,14 @@ void Abstract_classes() {
     class shape {
         public:
             virtual void draw() = 0; // pure virtual function
-            void show() {std::cout << "This is a shape." << std::endl;}
+            virtual void show() {std::cout << "This is a shape." << std::endl;}
+            virtual ~void show() = 0;
     };
 
     class circle : public shape {
         public:
+
+        float radius; // Declare radius as a member variable
             void area() {std::cout << "Area of circle: " << 3.14 * radius * radius << std::endl;}
             void draw() {std::cout << "Drawing a circle." << std::endl;}
             void show() {area();} // Calls the area() function
@@ -161,6 +164,8 @@ void Abstract_classes() {
 
     class square : public shape {
         public:
+
+        float side; // Declare side as a member variable
             void area() {std::cout << "Area of square: " << side * side << std::endl;}
             void draw() {std::cout << "Drawing a square." << std::endl;}
             void show() {area();} // Calls the area() function
