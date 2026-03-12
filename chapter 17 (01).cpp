@@ -6,6 +6,8 @@ float radius, side;
 void Pointer_to_BASE_class();
 void Virtual_methods();
 void Abstract_classes();
+void Multiple_inheritance();
+void multiple_virtual_constr();
 
 int main() {
 
@@ -20,6 +22,8 @@ int main() {
         cout << "1. Pointer to BASE class" << endl;
         cout << "2. virtual methods" << endl;
         cout << "3. Abstract classes" << endl;
+        cout << "4. Multiple Inheritance" << endl;
+        cout << "5. Multiple Inheritance and construction" <<endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -29,6 +33,8 @@ int main() {
             case 1: Pointer_to_BASE_class(); break;
             case 2: Virtual_methods(); break;
             case 3: Abstract_classes(); break;
+            case 4: Multiple_inheritance(); break;
+            case 5: multiple_virtual_constr(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -190,4 +196,121 @@ void Abstract_classes() {
     ptr2->show(); // Calls square's area() through the base class pointer
         std::cout << "Abstract class method called through base class pointer for square" << std::endl;
             std::cout << std::endl;
+}
+
+void Multiple_inheritance() {
+
+    class Alpha {
+        int Variable_A;
+    public:
+        void set_A(int x) {Variable_A=x;}
+        void show_A() {std::cout << "Variable_A= " << Variable_A << std::endl;}
+    };
+
+
+    class Beta {
+        int Variable_B;
+    public:
+        void set_B(int x) {Variable_B=x;}
+        void show_B() {std::cout << "Variable_B= " << Variable_B << std::endl;}
+    };
+
+
+    class Alpha_Beta: public Alpha, public Beta {
+        public:
+            void show_AB() {std::cout << "Object AB" << std::endl;}
+    };
+
+
+    int temp_value_A, temp_value_B;
+    Alpha_Beta Object;
+
+    std::cout <<"Give Value to Variable_A: ";
+        std::cin >> temp_value_A;
+        Object.set_A(temp_value_A);
+    
+    std::cout <<"Gve value to Variable_B: ";
+        std::cin >> temp_value_B;
+        Object.set_B(temp_value_B);
+    
+
+    std::cout << "\n------PRINTING VALUES------" << std::endl;
+    Object.show_A();
+    Object.show_B();
+    Object.show_AB();
+}
+
+
+void multiple_virtual_constr(){
+
+// Base Class A
+class A {
+public:
+    int var_a;
+    
+    A(int a) {
+        var_a = a;
+        std::cout << "Constructor A called. var_a = " << var_a << std::endl;
+    }
+    
+    ~A() {
+        std::cout << "Destructor A called." << std::endl;
+    }
+};
+
+// Base Class B
+class B {
+public:
+    int var_b;
+    
+    B(int b) {
+        var_b = b;
+        std::cout << "Constructor B called. var_b = " << var_b << std::endl;
+    }
+    
+    ~B() {
+        std::cout << "Destructor B called." << std::endl;
+    }
+};
+
+// Derived Class AB inheriting from both A and B
+class AB : public A, public B {
+public:
+    int var_ab;
+    
+    // The derived class constructor passes the user inputs to the base constructors
+    AB(int a, int b, int ab) : A(a), B(b) {
+        var_ab = ab;
+        std::cout << "Constructor AB called. var_ab = " << var_ab << std::endl;
+    }
+    
+    ~AB() {
+        std::cout << "Destructor AB called." << std::endl;
+    }
+};
+
+
+
+
+    int input_a, input_b, input_ab;
+
+    // 1. Gather input from the user
+    std::cout << "Enter a value for var_a: ";
+    std::cin >> input_a;
+
+    std::cout << "Enter a value for var_b: ";
+    std::cin >> input_b;
+
+    std::cout << "Enter a value for var_ab: ";
+    std::cin >> input_ab;
+
+    std::cout << "\n--- Creating object of AB ---" << std::endl;
+    
+    // 2. Create the object inside a scoped block using the user's variables
+    {
+        AB my_object(input_a, input_b, input_ab);
+    } 
+    
+    std::cout << "--- Object has been destroyed ---" << std::endl;
+
 }
