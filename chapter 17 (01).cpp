@@ -291,9 +291,6 @@ public:
     }
 
 };
-    
-
-
 
     int input_a, input_b, input_ab;
 
