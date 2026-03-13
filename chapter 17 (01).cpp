@@ -244,57 +244,59 @@ void Multiple_inheritance() {
 void multiple_virtual_constr(){
 
 // Base Class A
-class A {
+class Alpha {
 public:
     int var_a;
     
-    A(int a) {
+    Alpha(int a) {
         var_a = a;
         std::cout << "Constructor A called. var_a = " << var_a << std::endl;
     }
     
-    ~A() {
+    virtual ~Alpha() {
         std::cout << "Destructor A called." << std::endl;
     }
 };
 
 // Base Class B
-class B {
+class Beta {
 public:
     int var_b;
     
-    B(int b) {
+    Beta(int b) {
         var_b = b;
         std::cout << "Constructor B called. var_b = " << var_b << std::endl;
     }
     
-    ~B() {
+    virtual ~Beta() {
         std::cout << "Destructor B called." << std::endl;
     }
 };
 
 // Derived Class AB inheriting from both A and B
-class AB : public A, public B {
+class Alpha_Beta : public Alpha, public Beta {
 public:
+    int total_sum;
     int var_ab;
-    
-    // The derived class constructor passes the user inputs to the base constructors
-    AB(int a, int b, int ab) : A(a), B(b) {
+
+    Alpha_Beta(int a, int b, int ab) : Alpha(a), Beta(b) {
         var_ab = ab;
-        std::cout << "Constructor AB called. var_ab = " << var_ab << std::endl;
+        // AB "inherits" access to var_a and var_b
+        total_sum = var_a + var_b + var_ab; 
+        std::cout << "The combined sum is: " << total_sum << std::endl;
     }
-    
-    ~AB() {
+
+        ~Alpha_Beta() {
         std::cout << "Destructor AB called." << std::endl;
     }
-};
 
+};
+    
 
 
 
     int input_a, input_b, input_ab;
 
-    // 1. Gather input from the user
     std::cout << "Enter a value for var_a: ";
     std::cin >> input_a;
 
@@ -307,10 +309,9 @@ public:
     std::cout << "\n--- Creating object of AB ---" << std::endl;
     
     // 2. Create the object inside a scoped block using the user's variables
-    {
-        AB my_object(input_a, input_b, input_ab);
-    } 
+        Alpha_Beta my_object(input_a, input_b, input_ab);
+  
     
     std::cout << "--- Object has been destroyed ---" << std::endl;
 
-}
+};
