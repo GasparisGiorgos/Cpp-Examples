@@ -20,6 +20,10 @@ int main() {
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
+
+        // FIX: Clear the Enter key immediately after the menu choice
+        cin.ignore(1000, '\n');
+
         cout << "--------------------------------\n" << endl;
 
         switch (choice) {
@@ -157,11 +161,25 @@ void Manipulators() {
 
     std::cout << "Type exactly: [Space]A[Space]B (and press Enter)\n";
     
-    char char1, char2, char3;
-    
-    std::cin >> std::noskipws >> char1 >> char2;
-    std::cout << "noskipws grabbed: '" << char1 << "' and '" << char2 << "'\n";
+    char firstSpace;
+    char letterA;
+    char letterB;
 
-    std::cin >> std::skipws >> std::ws >> char3;
-    std::cout << "skipws+ws grabbed: '" << char3 << "'\n";
+    // --- STEP 1: Reading raw keystrokes ---
+    
+    std::cin >> std::noskipws;   // Setting: Tell cin to NOT ignore spaces
+    
+    std::cin >> firstSpace;      // Action: Grabs the very first [Space]
+    std::cin >> letterA;         // Action: Grabs the 'A'
+    
+    std::cout << "noskipws grabbed: '" << firstSpace << "' and '" << letterA << "'\n\n";
+
+    // --- STEP 2: Returning to normal behavior ---
+    
+    std::cin >> std::skipws;     // Setting: Tell cin to ignore spaces again
+    std::cin >> std::ws;         // Setting: Vacuum up the leftover [Space] waiting in the buffer
+    
+    std::cin >> letterB;         // Action: Grabs the 'B'
+    
+    std::cout << "skipws+ws grabbed: '" << letterB << "'\n";
 }
