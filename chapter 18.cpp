@@ -159,8 +159,9 @@ void Manipulators() {
     std::cout << "- skipws goes back to the default of ignoring spaces.\n";
     std::cout << "- ws is a vacuum that sucks up all leftover spaces currently sitting in the buffer.\n\n";
 
-    std::cout << "Type exactly: [Space]A[Space]B (and press Enter)\n";
+    std::cout << "Type exactly (or it breakes due to noskipws): [Space]A[Space]B (and press Enter)\n";
     
+
     char firstSpace;
     char letterA;
     char letterB;
@@ -172,14 +173,30 @@ void Manipulators() {
     std::cin >> firstSpace;      // Action: Grabs the very first [Space]
     std::cin >> letterA;         // Action: Grabs the 'A'
     
-    std::cout << "noskipws grabbed: '" << firstSpace << "' and '" << letterA << "'\n\n";
+    std::cout << "noskipws grabbed: '";
+    
+    // If it's a space, physically print [ ], otherwise print the letter
+    if (firstSpace == ' ') std::cout << "[ space ]"; 
+    else std::cout << firstSpace;
+    
+    std::cout << "' and '";
+    
+    if (letterA == ' ') std::cout << "[ space ]"; 
+    else std::cout << letterA;
+    
+    std::cout << "'\n\n";
 
     // --- STEP 2: Returning to normal behavior ---
     
     std::cin >> std::skipws;     // Setting: Tell cin to ignore spaces again
-    std::cin >> std::ws;         // Setting: Vacuum up the leftover [Space] waiting in the buffer
+    std::cin >> std::ws;         // Setting: trash out the leftover [Space] waiting in the buffer
     
     std::cin >> letterB;         // Action: Grabs the 'B'
     
-    std::cout << "skipws+ws grabbed: '" << letterB << "'\n";
+    std::cout << "skipws+ws grabbed: '";
+    
+    if (letterB == ' ') std::cout << "[ space ]"; 
+    else std::cout << letterB;
+    
+    std::cout << "'\n";
 }
