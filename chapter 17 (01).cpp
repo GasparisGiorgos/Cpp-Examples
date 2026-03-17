@@ -8,6 +8,7 @@ void Virtual_methods();
 void Abstract_classes();
 void Multiple_inheritance();
 void multiple_virtual_constr();
+void inheritance_generalization();
 
 int main() {
 
@@ -23,7 +24,8 @@ int main() {
         cout << "2. virtual methods" << endl;
         cout << "3. Abstract classes" << endl;
         cout << "4. Multiple Inheritance" << endl;
-        cout << "5. Multiple Inheritance and construction" <<endl;
+        cout << "5. Multiple Inheritance and construction" << endl;
+        cout << "6. inheritance generalization()" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -35,6 +37,7 @@ int main() {
             case 3: Abstract_classes(); break;
             case 4: Multiple_inheritance(); break;
             case 5: multiple_virtual_constr(); break;
+            case 6: inheritance_generalization(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -312,3 +315,63 @@ public:
     std::cout << "--- Object has been destroyed ---" << std::endl;
 
 };
+
+
+
+void inheritance_generalization() {
+
+    // 1. Base Class (The General Concept)
+    class Vehicle {
+    public:
+        int max_speed;
+        
+        Vehicle(int speed) {
+            max_speed = speed;
+            std::cout << "Base constructor built the generic vehicle. Max Speed: " << max_speed << std::endl;
+        }
+        
+        ~Vehicle() {
+            std::cout << "Base destructor called." << std::endl;
+        }
+    };
+
+    // 2. Derived Class (The Specific Concept inheriting from Vehicle)
+    class Car : public Vehicle {
+    public:
+        int num_doors;
+        
+        // Passes the user's speed input up to the Vehicle base class
+        Car(int speed, int doors) : Vehicle(speed) {
+            num_doors = doors;
+            std::cout << " -> [Car] Derived constructor built the specific car. Doors: " << num_doors << std::endl;
+        }
+        
+        ~Car() {
+            std::cout << " -> [Car] Derived destructor called." << std::endl;
+        }
+    };
+
+    // 3. Gather User Input
+    int input_speed, input_doors;
+
+    std::cout << "\nEnter the top speed for the vehicle: ";
+    std::cin >> input_speed;
+
+    std::cout << "Enter the number of doors for the car: ";
+    std::cin >> input_doors;
+
+    std::cout << "\n--- Creating the Car Object ---" << std::endl;
+    
+    
+        Car my_car(input_speed, input_doors);
+        
+        std::cout << "\n[Success!] " << std::endl;
+        // Accessing its own variable
+        std::cout << "My car has " << my_car.num_doors << " doors." << std::endl; 
+        // Accessing the INHERITED variable from Vehicle
+        std::cout << "It inherited a top speed of " << my_car.max_speed << " from the Vehicle class." << std::endl;
+        std::cout << std::endl;
+    
+    
+    std::cout << "--- Object has been destroyed ---\n" << std::endl;
+}
