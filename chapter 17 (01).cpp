@@ -9,6 +9,7 @@ void Abstract_classes();
 void Multiple_inheritance();
 void multiple_virtual_constr();
 void inheritance_generalization();
+void overide_final();
 
 int main() {
 
@@ -26,6 +27,7 @@ int main() {
         cout << "4. Multiple Inheritance" << endl;
         cout << "5. Multiple Inheritance and construction" << endl;
         cout << "6. inheritance generalization()" << endl;
+        cout << "7. Example with Overide and Final" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -38,6 +40,7 @@ int main() {
             case 4: Multiple_inheritance(); break;
             case 5: multiple_virtual_constr(); break;
             case 6: inheritance_generalization(); break;
+            case 7: overide_final(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -351,7 +354,7 @@ void inheritance_generalization() {
         }
     };
 
-    // 3. Gather User Input
+    
     int input_speed, input_doors;
 
     std::cout << "\nEnter the top speed for the vehicle: ";
@@ -374,4 +377,72 @@ void inheritance_generalization() {
     
     
     std::cout << "--- Object has been destroyed ---\n" << std::endl;
+}
+
+
+void overide_final() {
+
+    class A {
+        public:
+            int num_a_1, num_a_2;
+            virtual void display() {std::cout << num_a_1 << "-" << num_a_2 << "=" << num_a_1 + num_a_2 << std::endl;}
+    };
+
+    class B : public A {
+        public:
+            int num_b_1, num_b_2;
+            void display() override {std::cout << num_b_1 << "-" << num_b_2 << "=" << num_b_1 + num_b_2 << std::endl;}
+    };
+
+    class C : public B {
+        public:
+            int num_c_1, num_c_2;
+            void display() final {std::cout << num_c_1 << "-" << num_c_2 << "=" << num_c_1 + num_c_2 << std::endl;}
+    };
+    
+class D : public C {
+public:
+    int num_d_1, num_d_2;
+    
+    // ERROR DEMONSTRATION:
+    // If you uncomment the line below, the program will REFUSE TO COMPILE.
+    // void display() { std::cout << "D: " << num_d_1 << "-" << num_d_2 << "=" << num_d_1 + num_d_2 <<std::endl; } 
+};
+
+    int inp_a1, inp_a2;
+    int inp_b1, inp_b2;
+    int inp_c1, inp_c2;
+
+    std::cout << "\n--- USER INPUT VALUES ---" << std::endl;
+
+    std::cout << "Give Value to number a1 and a2" << std::endl;
+        std::cin >> inp_a1 >> inp_a2;
+    std::cout << "Give Value to number b1 and b2" << std::endl;
+        std::cin >> inp_b1 >> inp_b2;
+    std::cout << "Give Value to number c1 and c2" << std::endl;
+        std::cin >> inp_c1 >> inp_c2;
+
+    A objA;
+    objA.num_a_1 = inp_a1;
+    objA.num_a_2 = inp_a2;
+
+    B objB;
+    objB.num_b_1 = inp_b1;
+    objB.num_b_2 = inp_b2;
+
+    C objC;
+    objC.num_c_1 = inp_c1;
+    objC.num_c_2 = inp_c2;
+
+std::cout << "\n--- EXECUTING DISPLAY METHODS ---" << std::endl;
+    
+    // call the methods directly on the objects
+    objA.display(); 
+    objB.display();
+    objC.display();
+
+std::cout << "\n--- THE 'FINAL' KEYWORD EXPLAINED ---" << std::endl;
+
+    std::cout << "Class D cannot override the display() method because Class C marked it as 'final'." << std::endl;
+    std::cout << "Attempting to do so causes a Compile-Time Error, stoping the build entirely." << std::endl;
 }
