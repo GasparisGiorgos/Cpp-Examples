@@ -31,6 +31,7 @@ int main() {
         switch (choice) {
             case 1: formated_IO(); break;
             case 2: Manipulators(); break;
+            case 3: input_streams(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -85,7 +86,7 @@ void formated_IO() {
 
 void Manipulators() {
 
-// =========================================================
+    // =========================================================
     // 1. PADDING & ALIGNMENT
     // =========================================================
     std::cout << "1. PADDING & ALIGNMENT\n";
@@ -205,6 +206,36 @@ void Manipulators() {
 
 
 void input_streams() {
+    int age;
+    std::string fullName;
 
     
+    std::cout << "Enter your age: ";
+    
+    // CRITICAL DETAIL: When the user types the age (25) and presses Enter, 
+    // the "25" goes into the 'age' variable. But the Enter key press 
+    // itself (the newline character, '\n') stays trapped in the input buffer.
+    std::cin >> age; 
+    
+    
+    // If we don't clear the buffer right now, the next reading function 
+    // (getline) will immediately see that trapped '\n' and skip asking for the name.
+
+    // std::cin.ignore is the garbage collector
+    // It says: "Delete up to 10,000 characters from the buffer, OR delete 
+    // everything up to the very next newline ('\n'), whichever happens first."
+    std::cin.ignore(10000, '\n'); 
+
+    std::cout << "Enter your full name: ";
+    
+    // std::getline grabs everything typed, including spaces, until the user presses Enter.
+    // Because we cleaned up the leftover '\n', getline will wait for the user to type.
+    std::getline(std::cin, fullName); 
+
+    
+    std::cout << "\n--- User Profile ---" << std::endl;
+    std::cout << "Age: " << age << std::endl;
+    std::cout << "Name: " << fullName << "\n" << std::endl;
+
 }
+
