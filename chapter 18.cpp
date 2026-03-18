@@ -4,6 +4,7 @@
 
 void formated_IO();
 void Manipulators();
+void input_streams();
 
 int main() {
 
@@ -17,6 +18,7 @@ int main() {
         cout << "================================" << endl;
         cout << "1. Formated I/O " << endl;
         cout << "2. Manipulators" << endl;
+        cout << "3. getilne, ignore, istream" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -199,4 +201,10 @@ void Manipulators() {
     else std::cout << letterB;
     
     std::cout << "'\n";
+}
+
+
+void input_streams() {
+
+    
 }
