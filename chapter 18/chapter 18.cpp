@@ -1,10 +1,21 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
 
 void formated_IO();
 void Manipulators();
 void input_streams();
+void file_handling();
+
+
+
+struct Account {
+    int id;
+    char name[32]; 
+    double balance; 
+};
+
 
 int main() {
 
@@ -19,6 +30,7 @@ int main() {
         cout << "1. Formated I/O " << endl;
         cout << "2. Manipulators" << endl;
         cout << "3. getilne, ignore, istream" << endl;
+        cout << "4. file handling" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -32,6 +44,7 @@ int main() {
             case 1: formated_IO(); break;
             case 2: Manipulators(); break;
             case 3: input_streams(); break;
+            case 4: file_handling(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -239,3 +252,76 @@ void input_streams() {
 
 }
 
+
+void file_handling() {
+    std::cout << "--- 1. TEXT FILE OPERATIONS ---\n";
+
+    // ofstream: Output file stream (creates/writes to text files)
+    std::ofstream outText("sample.txt");
+    
+    outText << "Hello World\n";
+    
+    // put: Writes a single character
+    outText.put('Z'); 
+    
+    // flush: Forces the program to push data to the hard drive immediately
+    outText.flush(); 
+    outText.close();
+
+    // ifstream: Input file stream (reads from text files)
+    std::ifstream inText("sample.txt");
+    
+    // peek: Looks at the next character in the file WITHOUT taking it out
+    char nextChar = inText.peek();
+    std::cout << "Peeked at first char: " << nextChar << "\n";
+
+    // get: Reads exactly one single character
+    char c;
+    inText.get(c); 
+    std::cout << "Got first char: " << c << "\n";
+
+    // putback: Shoves a character back into the file stream so it can be read again
+    inText.putback(c);
+
+    // getline: Reads an entire string until it hits a newline
+    std::string line;
+    std::getline(inText, line);
+    std::cout << "Read full line: " << line << "\n";
+
+    // Linear Access & EOF: Reading straight through until the End Of File
+    std::cout << "Reading rest of file: ";
+    while (inText.get(c)) { 
+        std::cout << c;
+    }
+    
+    // Checking the EOF flag to confirm we hit the end
+    if (inText.eof()) {
+        std::cout << "\n[EOF Reached]\n\n";
+    }
+    inText.close();
+
+
+    std::cout << "--- 2. BINARY FILE OPERATIONS ---\n";
+
+    // fstream: Can read AND write. We open it in binary mode.
+    std::fstream binFile("data.bin", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+
+    int myNumber = 42;
+
+    // write: Takes a block of raw memory and writes it. 
+    // We have to cast it to a char pointer for the binary function to accept it.
+    binFile.write(reinterpret_cast<char*>(&myNumber), sizeof(myNumber));
+    std::cout << "Wrote " << myNumber << " to binary file.\n";
+
+    // Random Access: seekg moves the 'get' (reading) pointer back to the beginning
+    binFile.seekg(0, std::ios::beg);
+
+    int readNumber = 0;
+
+    // read: Grabs a block of raw bytes from the binary file
+    binFile.read(reinterpret_cast<char*>(&readNumber), sizeof(readNumber));
+    std::cout << "Read " << readNumber << " from binary file using random access.\n";
+
+    binFile.close();
+    
+}
