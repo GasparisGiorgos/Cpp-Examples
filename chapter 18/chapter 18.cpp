@@ -256,24 +256,34 @@ void input_streams() {
 void file_handling() {
     std::cout << "--- 1. TEXT FILE OPERATIONS ---\n";
 
-    // ofstream: Output file stream (creates/writes to text files)
+    // ofstream: Output file stream (creates / writes to text files)
+    // "outText" is just the pipeline that connects the program with the txt file.
+    // can be named whatver... "MyFile", "MyTXTfile", etc.... AND can have multiple pipelines connected to different files
     std::ofstream outText("sample.txt");
     
+    // using the pipeline to write in the txt file
     outText << "Hello World\n";
     
     // put: Writes a single character
+    // It writes it exactly where the hidden "cursor" currently is. in this case in the line bellow "Hello world"
     outText.put('Z'); 
     
-    // flush: Forces the program to push data to the hard drive immediately
+    // Right now all data writen in the file are sitting in the buffer 
+    // flush: Forces the program to save the data in the file immediately
     outText.flush(); 
+    // NOTE: even if not flushed, c++ will automaticaly trigger a final flush along with closing the file
     outText.close();
+
+
 
     // ifstream: Input file stream (reads from text files)
     std::ifstream inText("sample.txt");
     
     // peek: Looks at the next character in the file WITHOUT taking it out
-    char nextChar = inText.peek();
-    std::cout << "Peeked at first char: " << nextChar << "\n";
+    // peeks at the character that your cursor is currently on.
+    // since we closed the file and now opening it to read it, we are back at the start of the file (character "H")
+    char character = inText.peek();
+    std::cout << "Peeked at first char: " << character << "\n";
 
     // get: Reads exactly one single character
     char c;
@@ -281,20 +291,26 @@ void file_handling() {
     std::cout << "Got first char: " << c << "\n";
 
     // putback: Shoves a character back into the file stream so it can be read again
+    // even without putback the charatcer will revert to its positoin after closing the file
+    // since we use ifstream::inText we are essentially in "read only" mode and we are looking at a "copy" of the actual file
     inText.putback(c);
 
     // getline: Reads an entire string until it hits a newline
+    // we putback the letter "H" and now we are getting the entire line "Hello World"
     std::string line;
     std::getline(inText, line);
     std::cout << "Read full line: " << line << "\n";
 
     // Linear Access & EOF: Reading straight through until the End Of File
+    // c here gets replace with the char "Z" and then the loop breaks
     std::cout << "Reading rest of file: ";
     while (inText.get(c)) { 
         std::cout << c;
     }
     
     // Checking the EOF flag to confirm we hit the end
+    // EOF IS WEIRD. you will have to hit the wall for it to return true.
+    // you must reach the end of the file and actually try get past that, fail to do so and then eof will activate and return true
     if (inText.eof()) {
         std::cout << "\n[EOF Reached]\n\n";
     }
@@ -304,16 +320,38 @@ void file_handling() {
     std::cout << "--- 2. BINARY FILE OPERATIONS ---\n";
 
     // fstream: Can read AND write. We open it in binary mode.
+    // std::fstream: Instead of a one-way in or out pipe, this creates a two-way pipeline. You can get() and put() through the same variable.
+    // std::ios::in: "I want to be able to read from this file."
+    // std::ios::out: "I want to be able to write to this file."
+    // std::ios::binary: The "Stop Helping" Mode. This tells C++ to stop looking for newlines or special text characters. It treats every byte as raw data (0s and 1s).
+    // std::ios::trunc: The "Fresh Start" Button. If data.bin already exists, this wipes it completely clean (truncate) so you start with an empty file.
     std::fstream binFile("data.bin", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
 
     int myNumber = 42;
 
     // write: Takes a block of raw memory and writes it. 
     // We have to cast it to a char pointer for the binary function to accept it.
+
+    // When you use binFile.write, C++ stops translating. It acts like a guy moving a box.
+    // C++ doesn't care what is inside the box. It just grabs that 4-byte block and "clones" it directly onto your hard drive.
+
+
+    // &myNumber: This is the Location. (Where is the box?)
+    // reinterpret_cast<char*>: This is the Label. (The "Mover" only moves things labeled as "Bytes/Chars," so we slap a temporary "char" label on our "Integer" box so he'll pick it up.)
+    // sizeof(myNumber): This is the Weight. (How many bytes big is this box? Usually 4 for an integer.) can change depending on the value you want to "move"
+
+    // THIS FREAKING THING... "binFile.write(reinterpret_cast<char*>(&myNumber), sizeof(myNumber));" can be somewhat of a boilerplate that will be used most of the times
     binFile.write(reinterpret_cast<char*>(&myNumber), sizeof(myNumber));
     std::cout << "Wrote " << myNumber << " to binary file.\n";
 
     // Random Access: seekg moves the 'get' (reading) pointer back to the beginning
+    // binFile.seekg(0, std::ios::beg); tells C++ to pick up that reading cursor and teleport it back to a specific spot.
+    
+    // seekg: This stands for Seek Get. It specifically moves the Reading cursor (the "Get" pointer).
+    // 0: This is the Offset. It tells C++ how many steps (bytes) to move. 0 means "don't skip anything."
+    // std::ios::beg: This is the Starting Point. It stands for "Beginning."
+
+    // The translation: "Go to the Beginning of the file, move 0 bytes forward, and place the reading cursor there."
     binFile.seekg(0, std::ios::beg);
 
     int readNumber = 0;
@@ -323,5 +361,5 @@ void file_handling() {
     std::cout << "Read " << readNumber << " from binary file using random access.\n";
 
     binFile.close();
-    
+
 }
