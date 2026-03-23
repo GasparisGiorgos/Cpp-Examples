@@ -184,10 +184,10 @@ void Manipulators() {
 
     // --- STEP 1: Reading raw keystrokes ---
     
-    std::cin >> std::noskipws;   // Setting: Tell cin to NOT ignore spaces
+    std::cin >> std::noskipws;   //Tell cin to NOT ignore spaces
     
-    std::cin >> firstSpace;      // Action: Grabs the very first [Space]
-    std::cin >> letterA;         // Action: Grabs the 'A'
+    std::cin >> firstSpace;      //Grabs the very first [Space]
+    std::cin >> letterA;         //Grabs the 'A'
     
     std::cout << "noskipws grabbed: '";
     
@@ -204,10 +204,10 @@ void Manipulators() {
 
     // --- STEP 2: Returning to normal behavior ---
     
-    std::cin >> std::skipws;     // Setting: Tell cin to ignore spaces again
-    std::cin >> std::ws;         // Setting: trash out the leftover [Space] waiting in the buffer
+    std::cin >> std::skipws;     //Tell cin to ignore spaces again
+    std::cin >> std::ws;         //trash out the leftover [Space] waiting in the buffer
     
-    std::cin >> letterB;         // Action: Grabs the 'B'
+    std::cin >> letterB;         //Grabs the 'B'
     
     std::cout << "skipws+ws grabbed: '";
     
@@ -354,10 +354,16 @@ void file_handling() {
     // The translation: "Go to the Beginning of the file, move 0 bytes forward, and place the reading cursor there."
     binFile.seekg(0, std::ios::beg);
 
+    // building an empty "crate" in memory in orderto store those 4 bytes
     int readNumber = 0;
 
-    // read: Grabs a block of raw bytes from the binary file
+
+    // The Address (&readNumber): You tell the mover, "Here are the coordinates to the empty crate."
+    // The Disguise (reinterpret_cast<char*>): You tell the mover, "Treat this crate like a row of 4 slots for bytes."
+    // The Action: The mover goes to the file (where your cursor was sitting at 0), grabs the 4 raw bytes of the number 42, and pours them into the "crate" we made.
     binFile.read(reinterpret_cast<char*>(&readNumber), sizeof(readNumber));
+    
+    // Now that the raw bytes are inside an int variable, C++ can "translate" them back into a human-readable 500 for your screen.
     std::cout << "Read " << readNumber << " from binary file using random access.\n";
 
     binFile.close();
