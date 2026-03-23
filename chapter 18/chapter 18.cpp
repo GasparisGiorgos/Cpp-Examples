@@ -10,13 +10,6 @@ void file_handling();
 
 
 
-struct Account {
-    int id;
-    char name[32]; 
-    double balance; 
-};
-
-
 int main() {
 
     using namespace std;
@@ -31,6 +24,7 @@ int main() {
         cout << "2. Manipulators" << endl;
         cout << "3. getilne, ignore, istream" << endl;
         cout << "4. file handling" << endl;
+        cout << "5. " << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -363,9 +357,29 @@ void file_handling() {
     // The Action: The mover goes to the file (where your cursor was sitting at 0), grabs the 4 raw bytes of the number 42, and pours them into the "crate" we made.
     binFile.read(reinterpret_cast<char*>(&readNumber), sizeof(readNumber));
     
-    // Now that the raw bytes are inside an int variable, C++ can "translate" them back into a human-readable 500 for your screen.
+    // Now that the raw bytes are inside an int variable, C++ can "translate" them back into a human-readable 500 for your screen.  
     std::cout << "Read " << readNumber << " from binary file using random access.\n";
 
+
+    // THE "GPS" COMMAND (i dont remember if it exists in the book... i hate this chapter lol)
+    // tellg (tell get) ask the reading cursor: "what byte position are you currently on?"
+    // since we statrted at 0  and read a 5-byte integer, the cursor should now be sitting at byte 4.
+    std::streampos currentPos = binFile.tellg();
+    std::cout << "After readin, the cursor is stiting at byte : " << currentPos << std::endl;
+
+    // ---something extra--- //
+    // PRO-TRICK: How to find the exact size of ANY file
+    // 1. Teleport the reading cursor to the absolute end of the file
+    binFile.seekg(0, std::ios::end);
+
+    // 2. Ask the cursor where it is standing now!
+    std::streampos fileSize = binFile.tellg(); 
+    std::cout << "The total size of 'data.bin' file is: " << fileSize << " bytes.\n";
+
+    
     binFile.close();
 
 }
+
+
+
