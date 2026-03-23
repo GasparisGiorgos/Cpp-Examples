@@ -2,11 +2,13 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 
 void formated_IO();
 void Manipulators();
 void input_streams();
 void file_handling();
+void advanced_file_ops();
 
 
 
@@ -24,7 +26,7 @@ int main() {
         cout << "2. Manipulators" << endl;
         cout << "3. getilne, ignore, istream" << endl;
         cout << "4. file handling" << endl;
-        cout << "5. " << endl;
+        cout << "5. Advance file managment" << endl;
         cout << "0. Exit" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
@@ -39,6 +41,7 @@ int main() {
             case 2: Manipulators(); break;
             case 3: input_streams(); break;
             case 4: file_handling(); break;
+            case 5: advanced_file_ops(); break;
             case 0: cout << "Exiting program..." << endl; break;
             default: cout << "Invalid choice! Try again." << endl;
         }
@@ -382,4 +385,108 @@ void file_handling() {
 }
 
 
+void advanced_file_ops() {
 
+    std::cout << "\n--- 1. STRING STREAMS (sstream) ---\n";
+    // StringStream is a "File Simulator" in your RAM.
+    // We can feed it a messy string, and use file tools (>>) to extract the data perfectly!
+    
+    std::string rawData = "Score: 9500 Level: 42";
+
+    // std::stringstream builds a fake, invisible file inside teh ram using string
+    std::stringstream memoryPipe(rawData); 
+
+    // Because C++ treats it exactly like a file, you can use the >> vacuum to suck out the words and numbers in perfect order.
+    // The Result: text1 gets "Score:", score gets 9500, text2 gets "Level:", and level gets 42. 
+    std::string text1, text2;
+    int score, level;
+
+    // We extract data exactly like we would from cin or an ifstream!
+    // It grabs "Score:", then 9500, then "Level:", then 42.
+    memoryPipe >> text1 >> score >> text2 >> level;
+    std::cout << "Extracted from string -> " << text1 << " " << score << " | " << text2 << " " << level << "\n\n";
+
+
+    std::cout << "--- 2. THE TWO POINTERS & RANDOM ACCESS ---\n";
+
+    // You open the ultimate 2-way pipeline (fstream) in Binary mode. You start with a completely empty file (trunc).
+    std::fstream dbFile("stats.bin", std::ios::in | std::ios::out | std::ios::binary | std::ios::trunc);
+
+    // Let's use 3 simple integers instead of a struct
+    // Then, you act as the "Mover." You grab three 4-byte crates (your integers) and shove them into the file one after the other.
+
+    // Byte 0 to 3: Holds 100
+    // Byte 4 to 7: Holds 200
+    // Byte 8 to 11: Holds 300
+    int score1 = 100;
+    int score2 = 200; //the target
+    int score3 = 300;
+
+    // Write all 3 to the file sequentially
+    // If you ask the Writing Cursor where it is using dbFile.tellp(), it will say 12, because it is standing right after the last crate it dropped off!
+    dbFile.write(reinterpret_cast<char*>(&score1), sizeof(score1));
+    dbFile.write(reinterpret_cast<char*>(&score2), sizeof(score2));
+    dbFile.write(reinterpret_cast<char*>(&score3), sizeof(score3));
+
+    // tellp (Tell Put): Where is the Writing cursor sitting right now?
+    // Since we wrote three 4-byte integers, it should be at byte 12.
+    std::cout << "Wrote 3 scores. The 'Put' (Write) cursor is currently at byte: " << dbFile.tellp() << "\n\n";
+
+    // --- THE RANDOM ACCESS HEIST ---
+    // Goal: We want to read score2 (the 200), completely ignoring score1 and score3.
+    
+    // Logic: Every integer is 4 bytes (usually). 
+    // score1 takes up Bytes 0, 1, 2, 3. 
+    // Therefore, score2 starts exactly at Byte 4!
+    std::streampos targetLocation = sizeof(int); 
+
+    // seekg (Seek Get): Teleport the 'Get' (Read) cursor directly to Byte 4
+    // we user 'beg' to tell the first byte and measure forward form there
+    dbFile.seekg(targetLocation, std::ios::beg);
+    
+    // tellg (Tell Get): Verify our teleport worked
+    std::cout << "Teleported 'Get' cursor to byte: " << dbFile.tellg() << "\n";
+
+    // Create an empty crate and read the data into it
+    // typical boilerplate as mentioned in the previous function that reinterpret... is almost always the same thing
+    int loadedScore = 0;
+    dbFile.read(reinterpret_cast<char*>(&loadedScore), sizeof(loadedScore));
+    
+    std::cout << "Successfully extracted target score: " << loadedScore << "\n";
+    std::cout << "After reading, the 'Get' cursor moved to byte: " << dbFile.tellg() << "\n";
+
+    
+    // --- OVERWRITING SPECIFIC DATA ---
+    std::cout << "\n--- 3. EDITING A FILE IN PLACE ---\n";
+    
+    // Let's say player 2 beat their high score. We want to overwrite the 200 with 999.
+    int newScore = 999;
+
+    // seekp (Seek Put): We MUST teleport the 'Put' (Write) cursor to Byte 4!
+    dbFile.seekp(targetLocation, std::ios::beg);
+    
+    // Overwrite the old score with the new score
+    dbFile.write(reinterpret_cast<char*>(&newScore), sizeof(newScore));
+    
+    std::cout << "Overwrote data at byte: " << targetLocation << " using the 'Put' cursor.\n";
+    std::cout << "After writing, the 'Put' cursor moved to byte: " << dbFile.tellp() << "\n";
+
+    
+
+    // Let's prove it worked by reading the whole file back!
+    std::cout << "\nReading entire file to verify:\n";
+    
+    // Rewind the reading cursor to the absolute beginning
+    dbFile.seekg(0, std::ios::beg);
+    
+    int temp = 0;
+    
+    // Pro-Trick: The read() function returns true if it successfully stole bytes, 
+    // and false when it hits the EOF wall. This prevents the "double read" bug!
+    while (dbFile.read(reinterpret_cast<char*>(&temp), sizeof(temp))) {
+        std::cout << "Found score: " << temp << "\n";
+    }
+
+    dbFile.close();
+
+}
