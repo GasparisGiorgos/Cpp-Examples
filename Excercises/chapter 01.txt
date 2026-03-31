@@ -1,7 +1,0 @@
-1.1 --> a = true , b = true , c = false, d = false , e = true
-1.2 --> a = true , b = false , c = true, d = false , e = true
-1.3 --> a = false (opject) , b = false (opject) , c = true (class), d = false (opject) , e = fasle (opject)
-1.4 --> class1: book -- object_1: the book "C++ In-Depth Series" | object_2: another random DIFFERENT book from the library
-        class2: phone -- object_1: my own android phoen | object_2: the sasmsung phone my fellow classmate has
-        class3: bank_account -- object_1: acc owned by person1 | acc owned by person2
-1.5 --> class dog | public/prvate: age , color , name | methods: running , barking , eating , sleeping
